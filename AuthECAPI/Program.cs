@@ -1,6 +1,8 @@
 using AuthECAPI.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseAuthorization();
@@ -33,4 +36,34 @@ app
     .MapGroup("/api")
     .MapIdentityApi<AppUser>();
 
+app.MapPost("/api/signup", async (
+    UserManager<AppUser> userManager, 
+    [FromBody] UserDTO user
+    ) => 
+    {
+        AppUser appUser = new AppUser
+        {
+            Email = user.Email,
+            FullName = user.FullName
+        };
+
+        var result = await userManager.CreateAsync(appUser, user.Password);
+        if (result.Succeeded)
+        {
+            return Results.Created($"/api/users/{appUser.Id}", appUser);
+        }
+        else
+        {
+            return Results.BadRequest(result.Errors);
+        }
+    }
+);
+
 app.Run();
+
+public class UserDTO
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public string FullName { get; set; }
+}
