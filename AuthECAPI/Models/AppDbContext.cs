@@ -5,7 +5,7 @@ namespace AuthECAPI.Models
 {
     public class AppDbContext : IdentityDbContext
     {
-        protected AppDbContext(DbContextOptions<AppDbContext> options): base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
         }
     }
