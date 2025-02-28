@@ -29,6 +29,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapIdentityApi<IdentityUser>();
+app
+    .MapGroup("/api")
+    .MapIdentityApi<IdentityUser>();
 
 app.Run();

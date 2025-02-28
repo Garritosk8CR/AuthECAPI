@@ -4,3 +4,12 @@ GET {{AuthECAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+# Create a New User
+POST {{AuthECAPI_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "Password123!"
+}
