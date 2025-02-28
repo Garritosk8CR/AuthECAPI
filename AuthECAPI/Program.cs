@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services
-    .AddIdentityApiEndpoints<IdentityUser>()
+    .AddIdentityApiEndpoints<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddDbContext<AppDbContext>(options => 
@@ -31,6 +31,6 @@ app.MapControllers();
 
 app
     .MapGroup("/api")
-    .MapIdentityApi<IdentityUser>();
+    .MapIdentityApi<AppUser>();
 
 app.Run();
