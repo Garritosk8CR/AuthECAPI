@@ -36,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+#region Config Cors
 app.UseCors(
     options => options
         .WithOrigins("http://localhost:4200")
@@ -43,6 +44,7 @@ app.UseCors(
         .AllowAnyHeader()
         .AllowCredentials()
 );
+#endregion
 
 app.UseAuthorization();
 
