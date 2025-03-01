@@ -36,6 +36,14 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+app.UseCors(
+    options => options
+        .WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+);
+
 app.UseAuthorization();
 
 app.MapControllers();
@@ -44,13 +52,11 @@ app
     .MapGroup("/api")
     .MapIdentityApi<AppUser>();
 
-app.MapPost("/api/signup", async (
-    UserManager<AppUser> userManager, 
-    [FromBody] UserDTO user
-    ) => 
+app.MapPost("/api/signup", async (UserManager<AppUser> userManager, [FromBody] UserDTO user) => 
     {
         AppUser appUser = new AppUser
         {
+            UserName = user.Email,
             Email = user.Email,
             FullName = user.FullName
         };
