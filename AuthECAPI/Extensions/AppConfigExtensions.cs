@@ -1,5 +1,8 @@
 ﻿
 
+using AuthECAPI.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace AuthECAPI.Extensions
 {
     public static class AppConfigExtensions
@@ -14,6 +17,12 @@ namespace AuthECAPI.Extensions
                     .AllowCredentials()
             );
             return app;
+        }
+
+        public static IServiceCollection AddAppConfig(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+            return services;
         }
     }
 }
