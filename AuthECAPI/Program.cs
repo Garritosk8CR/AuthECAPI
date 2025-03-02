@@ -18,8 +18,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddIdentityHandlers();
-builder.Services.ConfigureIdentityOptions();
+builder.Services.AddIdentityHandlers()
+                .ConfigureIdentityOptions();
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DevDB")));

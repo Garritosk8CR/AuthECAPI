@@ -5,14 +5,15 @@ namespace AuthECAPI.Extensions
 {
     public static class IdentityExtensions
     {
-        public static void AddIdentityHandlers(this IServiceCollection services)
+        public static IServiceCollection AddIdentityHandlers(this IServiceCollection services)
         {
             services
                 .AddIdentityApiEndpoints<AppUser>()
                 .AddEntityFrameworkStores<AppDbContext>();
+            return services;
         }
 
-        public static void ConfigureIdentityOptions(this IServiceCollection services)
+        public static IServiceCollection ConfigureIdentityOptions(this IServiceCollection services)
         {
             services.Configure<IdentityOptions>(options =>
             {
@@ -21,6 +22,7 @@ namespace AuthECAPI.Extensions
                 options.Password.RequireUppercase = false;
                 options.User.RequireUniqueEmail = true;
             });
+            return services;
         }
     }
 }
