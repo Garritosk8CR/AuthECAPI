@@ -19,10 +19,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddIdentityHandlers()
-                .ConfigureIdentityOptions();
-
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DevDB")));
+                .ConfigureIdentityOptions()
+                .InjectDbContext(builder.Configuration);
 
 builder.Services.AddAuthentication(x =>
 {
