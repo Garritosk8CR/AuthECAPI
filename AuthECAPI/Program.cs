@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -98,7 +100,32 @@ app.MapPost("/api/signup", async (UserManager<AppUser> userManager, [FromBody] U
 
 app.MapPost("/api/signin", async (UserManager<AppUser> userManager, [FromBody] UserLoginDTO user) =>
     {
-        
+        var userfound = await userManager.FindByEmailAsync(user.Email);
+        if (userfound != null && await userManager.CheckPasswordAsync(userfound, user.Password))
+        {
+            var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["appSettings:JWTSecret"]!)
+            );
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("UserID", userfound.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(10),
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+
+            var token = tokenHandler.WriteToken(securityToken);
+
+            return Results.Ok(new { token });
+        }
+        else
+            return Results.BadRequest(new { message = "password or email is incorrect"});
     }
 );
 
