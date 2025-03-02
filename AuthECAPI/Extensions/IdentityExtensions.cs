@@ -49,5 +49,13 @@ namespace AuthECAPI.Extensions
             });
             return services;
         }
+
+        public static WebApplication AddIdentityAuthMiddlewares(this WebApplication app)
+        {
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            return app;
+        }
     }
 }

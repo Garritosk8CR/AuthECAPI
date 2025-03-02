@@ -26,10 +26,10 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.AddScalarExplorer()
-    .ConfigCORS(builder.Configuration);
+    .ConfigCORS(builder.Configuration)
+    .AddIdentityAuthMiddlewares();
 
-app.UseAuthentication();
-app.UseAuthorization();
+
 
 app.MapControllers();
 
