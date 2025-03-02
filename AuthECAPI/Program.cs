@@ -113,7 +113,7 @@ app.MapPost("/api/signin", async (UserManager<AppUser> userManager, [FromBody] U
                 {
                     new Claim("UserID", userfound.Id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddDays(10),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
             };
 
