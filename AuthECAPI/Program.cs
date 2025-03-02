@@ -75,7 +75,7 @@ app
     .MapGroup("/api")
     .MapIdentityApi<AppUser>();
 
-app.MapPost("/api/signup", async (UserManager<AppUser> userManager, [FromBody] UserDTO user) => 
+app.MapPost("/api/signup", async (UserManager<AppUser> userManager, [FromBody] UserRegistrationDTO user) => 
     {
         AppUser appUser = new AppUser
         {
@@ -96,11 +96,23 @@ app.MapPost("/api/signup", async (UserManager<AppUser> userManager, [FromBody] U
     }
 );
 
+app.MapPost("/api/signin", async (UserManager<AppUser> userManager, [FromBody] UserLoginDTO user) =>
+    {
+        
+    }
+);
+
 app.Run();
 
-public class UserDTO
+public class UserRegistrationDTO
 {
     public string Email { get; set; }
     public string Password { get; set; }
     public string FullName { get; set; }
+}
+
+public class UserLoginDTO
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
 }
