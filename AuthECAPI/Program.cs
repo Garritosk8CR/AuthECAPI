@@ -20,25 +20,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddIdentityHandlers()
                 .ConfigureIdentityOptions()
-                .InjectDbContext(builder.Configuration);
+                .InjectDbContext(builder.Configuration)
+                .AddIdentityAuth(builder.Configuration);
 
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = 
-    x.DefaultChallengeScheme = 
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(y =>
-{
-    y.SaveToken = false;
-    y.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["appSettings:JWTSecret"]!)
-            ),
-        
-    };
-});
+
 
 var app = builder.Build();
 
