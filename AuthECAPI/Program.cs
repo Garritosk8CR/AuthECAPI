@@ -1,3 +1,4 @@
+using AuthECAPI.Extensions;
 using AuthECAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -17,9 +18,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services
-    .AddIdentityApiEndpoints<AppUser>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentityHandlers();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
