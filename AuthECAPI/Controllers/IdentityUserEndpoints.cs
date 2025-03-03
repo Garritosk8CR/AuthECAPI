@@ -1,4 +1,5 @@
 ﻿using AuthECAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,7 +19,7 @@ namespace AuthECAPI.Controllers
             app.MapPost("/signin",SignIn);
             return app;
         }
-
+        [AllowAnonymous]
         public static async Task<IResult> CreateUser(UserManager<AppUser> userManager, [FromBody] UserRegistrationDTO user) {
             AppUser appUser = new AppUser
             {
@@ -37,7 +38,7 @@ namespace AuthECAPI.Controllers
                 return Results.BadRequest(result.Errors);
             }
         }
-
+        [AllowAnonymous]
         public static async Task<IResult> SignIn(UserManager<AppUser> userManager, [FromBody] UserLoginDTO user, IOptions<AppSettings>appSettings)
         {
             var userfound = await userManager.FindByEmailAsync(user.Email);
