@@ -15,8 +15,6 @@ builder.Services.InjectDbContext(builder.Configuration)
                 .AddIdentityAuth(builder.Configuration)
                 .AddOpenApi();
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
