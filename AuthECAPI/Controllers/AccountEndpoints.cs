@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AuthECAPI.Controllers
 {
@@ -10,8 +11,9 @@ namespace AuthECAPI.Controllers
             return app;
         }
         [Authorize]
-        private static async Task<string> GetUserProfile(HttpContext context)
+        private static async Task<string> GetUserProfile(ClaimsPrincipal user)
         {
+            string userId = user.Claims.First(x => x.Type == "UserID").Value;
             return "User profile";
         }
     }
